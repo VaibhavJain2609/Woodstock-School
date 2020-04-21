@@ -1,0 +1,216 @@
+\input{includes/lab_preamble}
+
+\def\LabCourse{AP Computer Science A}
+\def\LabNumber{09}
+\def\LabTitle{Raster Graphics}
+
+\begin{document}
+	\begin{coverpages}
+		\ \\[2cm]
+		\begin{center}
+			\huge
+			\textbf{\LabTitle}
+
+			\Large
+			\LabCourse
+		\end{center}
+
+		\vspace{1.5cm}
+
+		\begin{center}
+			\includegraphics[scale=0.45]{graphics/logo_black}
+
+			\vspace{2.5cm}
+
+			\Large
+			Name: \rule{11.5cm}{0.1pt}
+		\end{center}
+	\end{coverpages}
+
+	\blankpage
+
+	\thispagestyle{empty}
+	\tableofcontents
+
+	\pagebreak
+
+  \section{Background}
+    If you've used a computer, chances are you've taken, stored, transmitted, and edited digital image files. For over half a century, computer scientists and other researchers have developed techniques for the processing of these files. Despite this, every file format designed for storing digital image data can be placed in one of two categories: \emph{raster} and \emph{vector} file formats. Although vector formats are interesting, they are not nearly as common, mostly due to being unsuited for handling complex image data from digital cameras and other image capturing devices. As such, this case-study will focus on the handling of raster graphics.
+
+    \subsection{Raster Graphics}
+      A \emph{raster graphic} file format is any digital image file format that arranges its information according to a rectangular grid of pixels. Various file formats have been created that allow for varying degrees of image data compression, colour-depth, and the lossless preservation of image data. These types of image files will typically represent image data as a combination of an indexed palette of colours along with data representing which indexed colour should be reproduced for a given pixel. In memory, these images can then be stored as rectangular arrays of data corresponding to the indices within the colour palette and processed for display on a computer monitor or other display device.\\[\baselineskip]
+      A special type of raster image, called a \emph{bitmap}, stores only binary image data. That is, a single bit is used to represent each pixel, with only two colours (typically black and white) available for display.
+      %Bit-Mapped & Raster Graphics
+    \subsection{Indexed Colours \& Colour Palettes}
+      Many raster image files store a \emph{colour palette} alongside the image pixel data to enable more colour-depth. These colour palettes setup an indexed listing of colours that can then be referenced within the image data. The following example shows a 4-colour palette, the corresponding image data, and the corresponding image using this scheme.\\[\baselineskip]
+      \begin{minipage}[t]{0.2\textwidth}
+        \begin{center}
+          \textbf{Colour Palette}
+          \ \\[12pt]
+          \renewcommand\arraystretch{1.25}
+          \begin{tabular}{| p{0.1\textwidth} | c |}
+            \hline
+            0 & \fcolorbox{black}{black}{\parbox{0.005\textwidth}{\ }} \\
+            \hline          
+            1 & \fcolorbox{black}{red}{\parbox{0.005\textwidth}{\ }} \\
+            \hline          
+            2 & \fcolorbox{black}{blue}{\parbox{0.005\textwidth}{\ }} \\
+            \hline          
+            3 & \fcolorbox{black}{green}{\parbox{0.005\textwidth}{\ }}\\
+            \hline          
+          \end{tabular}
+        \end{center}
+      \end{minipage}
+      \begin{minipage}[t]{0.4\textwidth}
+        \begin{center}
+          \textbf{Image Data}
+          \ \\[9pt]
+          \renewcommand\arraystretch{1.475}
+          \ttfamily\footnotesize
+          \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | }
+            \hline
+            0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+            \hline         
+            0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 \\
+            \hline         
+            0 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 1 & 0 \\
+            \hline         
+            0 & 1 & 2 & 3 & 2 & 2 & 3 & 2 & 1 & 0 \\
+            \hline         
+            0 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 1 & 0 \\
+            \hline         
+            0 & 1 & 2 & 3 & 2 & 2 & 3 & 2 & 1 & 0 \\
+            \hline         
+            0 & 1 & 2 & 2 & 3 & 3 & 2 & 2 & 1 & 0 \\
+            \hline         
+            0 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 1 & 0 \\
+            \hline         
+            0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 \\
+            \hline         
+            0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\         
+            \hline         
+          \end{tabular}
+        \end{center}
+      \end{minipage}
+      \begin{minipage}[t]{0.4\textwidth}
+        \begin{center}
+          \textbf{Displayed Image}
+          \ \\[9pt]
+          \includegraphics[scale=0.4]{files/RasterImageExample}
+        \end{center}
+      \end{minipage}
+      \ \\[\baselineskip]
+      When combined with other data-compression techniques, the use of a colour palette can drastically reduce the size of digital image files containing a limited number of colours ($256$ or less), such as logos, icons, emoticons, etc.
+      %Indexed Colours & Colour Palettes
+      %%Example of how colour palettes work...
+    \subsection{Common Raster Graphic File Formats}
+      \subsubsection{TIF/TIFF}
+        The \emph{\textbf{T}agged \textbf{I}mage \textbf{F}ile \textbf{F}ormat} is an extensible digital image format first introduced in the 1980s as an attempt to standardize the file format created by consumer-grade scanners. Initially designed to simply handle bitmap images, the file format has since expanded to include grayscale and color images, including the support for a colour palette scheme similar to that discussed previously.\\[\baselineskip]
+        Extensions to the TIFF file format to allow for CMYK color palettes, lossless compression, multiple layers, and the ability to hold vector-based clipping paths have all made the file format popular among digital artists and printers. 
+      \subsubsection{GIF}
+        The \emph{\textbf{G}raphics \textbf{I}nterchange \textbf{F}ormat} was introduced by CompuServe (the first major American-based Internet Service Provider) as a colour digital image format replacement to their previous, black-and-white only image format. It has since become a popular image format for use on the Internet due to its relatively low file size, lossless compression, support for transparent pixels, and support for multiple-frame animations.\\[\baselineskip]
+        The GIF file format uses a colour palette scheme similar to the one discussed previously; however, each pixel is limited to 8-bits, resulting in a colour palette of no more than $256$ colours. This makes the file format unsuitable for high-colour images.
+      \subsubsection{PNG}
+        The \emph{\textbf{P}ortable \textbf{N}etwork \textbf{G}raphics} image format was first designed as an alternative to the GIF file format due to GIF's use of patented compression techniques. Since its introduction, it has become a popular alternative for web-based graphics, especially for graphics requiring high colour resolution. It's ability to handle a 24-bit colour palette (32-bits with an alpha channel) as well as non-paletted ``true-colour'' images allows for a colour-depth far exceeding GIF's $256$ colour palettes.\\[\baselineskip]
+        Despite the advantages of the PNG file format, it's greater colour-depth combined with lossless compression results in file-sizes generally larger than that of GIF and the popular JPG/EXIF file formats. Additionally, the PNG file format does not support animations, although a related format, the \emph{\textbf{M}ultiple-image \textbf{N}etwork \textbf{G}raphics} format, was later created to support this feature.
+      \subsubsection{JPG/JPEG + EXIF/JFIF}
+        The \emph{\textbf{J}oint \textbf{P}hotographic \textbf{E}xperts \textbf{G}roup} created a compression and decompression technique for the sharing of digital images, particularly for photographs or other scenes depicting a large colour-depth and variation. Because it is a \emph{lossy} compression technique, it is not suitable for the sharing of images requiring precise high-resolution. The techniques used in compression also do not handle line-drawings or other images representing stark colour transitions, such as images of vertical or horizontal textures of different colours. Despite these limitations, the compression technique specified usually results in much smaller images, making JPEG a popular choice for sharing high-colour resolution images on the Internet.\\[\baselineskip]
+        It should be noted that although images using this technique are usually labeled using the extention \code{jpg}, it is \emph{not} a file format. File formats have been developed which use the JPEG compression technique. Two popular ones are the \emph{\textbf{E}xchangeable \textbf{I}mage \textbf{F}ile \textbf{F}ormat}, often used by digital image capturing equipment such as digital cameras and camcorders, and \emph{\textbf{J}PEG \textbf{F}ile \textbf{I}nterchange \textbf{F}ormat}, often used by popular image editors, such as Adobe's Photoshop\textregistered.
+      %Common Raster Graphic formats (TIFF/GIF/PNG/JPG)    
+
+    \pagebreak
+
+    \subsection{Our File Formats}
+      %Simplified file format -- introduction to the case study's file format
+      Because traditional image file formats use various forms of compression in order to save hard drive space and decrease transmission times as well as support a number of more advanced features (such as animations and alpha channels), their implementation is beyond the scope of this case study. To that end, the following two file formats have been designed in order to give the student a feel for how to handle image data without being bogged down with the individual details that go into advanced image file formats. They may be considered highly simplified versions of some of the more popular raster image file formats.
+      \subsubsection{Computer Science Bit-Map File Format}
+        %%Computer Science Bit-Map File Format
+        %%%'CSBM''w''h''bitmap data'
+        In order to distinguish a traditional bit-mapped image from an indexed colour one for this case study, the first four bytes of each bitmap image will contain the ASCII encoded characters: `CSBM' (Decimal: \code{67 83 66 77}). This is known as the file's \emph{signature} and indicates to a program attempting to process the file exactly what type of file is being read.\\[\baselineskip]
+        The following two bytes of the file will contain the width and height, respectively.\\
+        {\small\textbf{Note:} Because the width and height are each restricted to a single byte of information, the maximum size of an image in this format is $255 \times 255$.}\\[\baselineskip]
+        Each of the remaining bits represents the image data as either a $0$ to indicate a black pixel or a $1$ to indicate a white one. Any bits exceeding \emph{width} $\times$ \emph{height} should be ignored.
+        \begin{center}
+          \renewcommand\arraystretch{1.5}
+          \begin{tabular}{| c | c | c | c | c | c | c |}
+            \hline
+            \code{`C'} & \code{`S'} & \code{`B'} & \code{`M'} & \emph{width} & \emph{height} & \emph{image data}\\
+            \hline
+          \end{tabular}
+        \end{center}
+
+      \subsubsection{Computer Science Indexed Colour File Format}
+        %%Computer Science Indexed Colour File Format
+        %%%'CSIC''w''h''p''palette''graphic data'
+        The signature for the Computer Science Indexed Colour File Format is `CSIC' (Decimal: \code{67 83 73 67}).\\[\baselineskip]
+        As with the Computer Science Bit-Map File Format, the following two bytes of the file will contain the width and height, respectively.\\[\baselineskip]
+        The next byte will contain the number of elements in the colour palette, $p$. What follows is a group of $3p$ bytes, wherein each set of $3$ bytes contains the values for \emph{red}, \emph{blue}, and \emph{green} making up each color.\\
+        {\small\textbf{Note:} For the purposes of this case-study (and most colour indexed file formats), $p$ will be a power of $2$.}\\[\baselineskip]
+        Finally, each remaining group of $\lg p$ bits will represent a single pixel of the image. Any bits exceeding \emph{width} $\times$ \emph{height} $\times$ $\lg p$ should be ignored.
+        \begin{center}
+          \renewcommand\arraystretch{1.5}
+          \begin{tabular}{| c | c | c | c | c | c | c | c | c |}
+            \hline
+            \code{`C'} & \code{`S'} & \code{`I'} & \code{`C'} & \emph{width} & \emph{height} & \emph{palette count} & \emph{palette colours} & \emph{image data}\\
+            \hline
+          \end{tabular}
+        \end{center}
+  \pagebreak
+
+  \section{Applications}
+    \QBox{ }{4cm}
+    \ \\[9pt]
+    \QBox{ }{4cm}
+    \ \\[9pt]
+    \QBox{ }{4cm}
+    \ \\[9pt]
+    \QBox{ }{4cm}
+    
+  \pagebreak
+  \section{Activity \#1} %Reading/Writing Image Files
+    \subsection{Introduction}
+      %How to read and write binary files.
+      %The Java 'byte' primitive.
+      %How to read individual bits from a byte.
+    \subsection{Exercises}
+      \begin{enumerate}
+        \item Implement the \code{openImageFile()} method with the following requirements:
+          \begin{enumerate}
+            \item Instantiates and returns an \code{RGImage} class object, populating all of its relevant instance variables, as indicated below.
+            \item The \code{width} and \code{height} of the \code{RGImage} should be read from the image file.              
+            \item If the image type is \code{CSBM}, a colour palette should be created containing only two entries, one for Color.BLACK and one for Color.WHITE.
+            \item If the image is type \code{CSIC}, a colour palette should be read from the file containing the appropriate number of colours.
+            \item The \code{pixels} attribute of the \code{RGImage} should be created as a two-dimensional array of appropriate values.\\
+            {\small\textbf{Note:} \code{pixels.length} should be equal to the \emph{width} of image and \code{pixels[i].length} should be equal to the \emph{height} for each $i < width$.}
+          \end{enumerate}
+        \item Implement the \code{saveImageFile()} method with the following requirements:
+          \begin{enumerate}
+            \item Reads relevant information from the given \code{RGImage} object.
+            \item Selects which file format to use (\code{CSBM} or \code{CSIC}) based on the palette present within the \code{RGImage}.
+            \item Write to a file following the guidelines of the appropriate file format from the Background.
+          \end{enumerate}
+      \end{enumerate}
+    \subsection{Questions}
+      %Row-Major vs Column-Major
+      
+  \pagebreak
+
+  \section{Activity \#2} %Defining new colour palettes...
+    \subsection{Introduction}
+      %The ColorPreset class.
+    \subsection{Exercises}
+      \begin{enumerate}
+        \item Implement the \code{listColourPresets()} method. This method should populate the \code{colourPresets} \code{List} with each of the colour palettes in the ``ColourPresets'' file.
+        \item Implement the \code{selectColourPreset()} method. This method should update the currently displayed \code{Image} to use the selected preset colour palette.
+        \item Implement the \code{saveColourPreset()} method. This method should append the current palette to the ``ColourPresets'' file.
+      \end{enumerate}
+    \subsection{Questions}
+
+  \pagebreak
+
+  \section{Final Analysis}
+
+  \pagebreak
+
+  \section{Template Classes}
+\end{document}
